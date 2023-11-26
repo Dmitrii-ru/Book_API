@@ -29,7 +29,6 @@ class BookAPIView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
 
 
-
 class BookCreateAPIView(generics.CreateAPIView):
     """
     Create book
@@ -47,7 +46,6 @@ class BookUpdateAPIView(UpdateAPIView):
     lookup_field = 'id'
 
 
-
 class BookDeleteAPIView(DestroyAPIView):
     """
     Delete book
@@ -56,7 +54,6 @@ class BookDeleteAPIView(DestroyAPIView):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
     lookup_field = 'id'
-
 
 
 class CreateUserView(generics.CreateAPIView):
