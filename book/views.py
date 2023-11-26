@@ -44,6 +44,7 @@ class BookUpdateAPIView(UpdateAPIView):
     """
     serializer_class = BookSerializer
     queryset = Book.objects.all()
+    lookup_field = 'id'
 
 
 
@@ -54,6 +55,7 @@ class BookDeleteAPIView(DestroyAPIView):
     """
     serializer_class = BookSerializer
     queryset = Book.objects.all()
+    lookup_field = 'id'
 
 
 
