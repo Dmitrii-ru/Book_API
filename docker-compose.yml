@@ -1,0 +1,39 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    command: ["sh", "-c",
+              "python3 manage.py migrate && 
+               python3 manage.py createsuperuser && 
+               python3 manage.py runserver 0.0.0.0:8000"
+    ]
+
+
+  db:
+    env_file:
+      - .env
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+  redis:
+    image: redis
+
+  celery:
+    build: .
+    command: celery -A test_book_app worker --loglevel=info
+    depends_on:
+      - db
+      - redis
+      - web
+
+volumes:
+  mysql_data:
