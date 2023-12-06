@@ -1,22 +1,9 @@
-from rest_framework.decorators import api_view
-from rest_framework.renderers import JSONRenderer
-
-from book.models import Book
 from .serializers import BookSerializer, CustomUserCreateSerializer
 from rest_framework.response import Response
 from rest_framework.generics import DestroyAPIView, UpdateAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from .models import Book
 from rest_framework import generics, status
-from django.http import JsonResponse
-
-
-@api_view(['GET'])
-def health_check(request):
-    """
-    Docker  healthcheck
-    """
-    return Response(status=status.HTTP_200_OK)
 
 
 class BooksAllAPIView(ReadOnlyModelViewSet):

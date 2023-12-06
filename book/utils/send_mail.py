@@ -1,7 +1,6 @@
 import smtplib
 from email.mime.text import MIMEText
 from test_book_app.settings import env
-import json
 
 
 def send_wellcome_mail(obj):
