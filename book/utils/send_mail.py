@@ -5,11 +5,18 @@ import json
 
 
 def send_wellcome_mail(obj):
+    """
+    Send mail
+    """
     try:
         user_date = obj
+        # Адрес отправки почты
         sender = env('EMAIL_SENSOR')
+        # Пароль почты
         password = env('EMAIL_PASSWORD')
+        # Хост почты
         email_host = env('EMAIL_HOST_NAME')
+        # Порт
         port = env('EMAIL_PORT')
 
         server = smtplib.SMTP(email_host, port)
@@ -24,7 +31,8 @@ def send_wellcome_mail(obj):
 
         server.login(sender, password)
         server.sendmail(sender, to_send, msg.as_string())
-        print("send_wellcome_mail")
+
 
     except Exception as error:
-        pass
+        import logging
+        logging.error(f"Произошла ошибка при отправке письма: {error}")

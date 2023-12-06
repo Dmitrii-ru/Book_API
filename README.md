@@ -1,61 +1,69 @@
 # Book тестовое задание
 
 ## API
-### /api/books
+### api/books
 * GEt all books
   - Method GET
   - Return all Books
 
-### /api/book/id
+### api/book/id
 * Get book by id
   - Params id
   - Method GET
   - Return book 
 
-### /api/book/create
+### api/book/create
 * Create book 
   - Method POST
   - Return book 
 
-### /api/book/update/id
+### api/book/update/id
 * Update book by id
   - Params id
   - Method PUT
   - Return book 
 
 
-### /api/book/delete/id
+### api/book/delete/id
 * Delete book by id
   - Params id
   - Method DELETE
 
 
-### /user/create
+### api/user/create
 * Create user
   - Method POST
   - Return User
+  - Send email
 
 
+# Docker 
+* git clone https://github.com/Dmitrii-ru/Book_API.git
+* Create .env
+```
+# DB
+DB_NAME='book_db'
+DB_USER='book_user'
+DB_PASSWORD='book_password'
+DB_HOST='db' # don't change 
+DB_PORT=3306
 
+# Mysql
+MYSQL_ROOT_PASSWORD='book_root_password'
 
+# Mail
+EMAIL_SENSOR='email'
+EMAIL_PASSWORD='password'
+EMAIL_HOST_NAME='host'
+EMAIL_PORT=post
 
+# Django
+DJANGO_ALLOWED_HOSTS='localhost,0.0.0.0,127.0.0.1'
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* docker-compose up
+* url http://0.0.0.0:8000/api/books/
+    
 
 # Python тестовое задание
 
