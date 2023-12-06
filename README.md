@@ -55,7 +55,7 @@ MYSQL_ROOT_PASSWORD='book_root_password'
 EMAIL_SENSOR='email'
 EMAIL_PASSWORD='password'
 EMAIL_HOST_NAME='host'
-EMAIL_PORT=post
+EMAIL_PORT=port
 
 # Django
 DJANGO_ALLOWED_HOSTS='localhost,0.0.0.0,127.0.0.1'
