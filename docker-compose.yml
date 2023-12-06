@@ -1,39 +1,92 @@
+version: '3.3'
+
 services:
+
   web:
     build: .
+
+    container_name: book_django
+
+    command: ["sh", "-c",
+                "python3 manage.py makemigrations &&
+                 python3 manage.py migrate && 
+                 python3 manage.py runserver 0.0.0.0:8000"
+             ]
+    volumes:
+         - .:/app
+
     ports:
       - "8000:8000"
+
     depends_on:
-      - db
-      - redis
-    command: ["sh", "-c",
-              "python3 manage.py migrate && 
-               python3 manage.py createsuperuser && 
-               python3 manage.py runserver 0.0.0.0:8000"
-    ]
+       db:
+         condition: service_healthy
+
+    restart: always
+
+    healthcheck:
+       test:  ["CMD", "pgrep", "-f", "python3 manage.py runserver 0.0.0.0:8000"]
+       interval: 30s
+       timeout: 10s
+       retries: 3
 
 
   db:
+    image: mysql
+
+    container_name: book_mysql
+
     env_file:
       - .env
-    image: mysql
+
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - mysql_data:/var/lib/mysql
+
+    restart: always
+
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
   redis:
     image: redis
 
+    container_name: book_redis
+
+    restart: always
+
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
   celery:
     build: .
-    command: celery -A test_book_app worker --loglevel=info
-    depends_on:
-      - db
-      - redis
-      - web
 
-volumes:
-  mysql_data:
+    container_name: book_celery
+
+    command: celery -A test_book_app worker --loglevel=info
+
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_healthy
+
+    restart: always
+
+    healthcheck:
+      test: [ "CMD", "celery", "-A", "test_book_app", "inspect", "active" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3

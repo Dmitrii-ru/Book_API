@@ -19,7 +19,7 @@ class Book(models.Model):
 
 class CustomUser(models.Model):
     username = models.CharField(max_length=30, blank=False, null=False, unique=True)
-    email = models.EmailField(blank=False, null=False)
+    email = models.EmailField(blank=False, null=False, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
